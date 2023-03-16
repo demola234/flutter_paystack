@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_paystack/src/widgets/base_widget.dart';
 import 'package:flutter_paystack/src/widgets/common/extensions.dart';
+import 'package:flutter_paystack/src/widgets/common/space.dart';
 import 'package:flutter_paystack/src/widgets/custom_dialog.dart';
 import 'package:flutter_paystack/src/widgets/input/pin_field.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_staggered_animations/src/animation_configuration.dart';
 
 import 'buttons.dart';
 
@@ -22,17 +25,43 @@ class _PinWidgetState extends BaseState<PinWidget> {
 
   @override
   Widget buildChild(BuildContext context) {
-    return new CustomAlertDialog(
-      content: new SingleChildScrollView(
-        child: new Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              buildStar(),
-              heightBox,
-              Text(
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: AnimationConfiguration.toStaggeredList(
+        duration: const Duration(milliseconds: 700),
+        childAnimationBuilder: (widget) => SlideAnimation(
+          horizontalOffset: -50.0,
+          child: FadeInAnimation(
+            child: widget,
+          ),
+        ),
+        children: [
+          SimpleDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(32),
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 20,
+            ),
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: InkWell(
+                  onTap: () => Navigator.pop(context),
+                  child: Icon(
+                    Icons.close,
+                    size: 24,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Align(
+                child:  Text(
                 'To confirm you\'re the owner of this card, please '
                 'enter your card pin.',
                 textAlign: TextAlign.center,
@@ -42,7 +71,36 @@ class _PinWidgetState extends BaseState<PinWidget> {
                   fontSize: 15.0,
                 ),
               ),
-              heightBox,
+              ),
+              SizedBox(height: 20),
+              Align(
+                child: SizedBox(
+                  width: eqW(218, screenWidth),
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      text: 'Authorize transaction with your\n',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.black,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: '4-digit PIN ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                        const TextSpan(
+                          text: 'to complete process',
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              VerticalSpacing(eqH(8, screenHeight)),
               new PinField(
                   onSaved: (String pin) => Navigator.of(context).pop(pin)),
               heightBox,
@@ -54,9 +112,36 @@ class _PinWidgetState extends BaseState<PinWidget> {
               ),
             ],
           ),
-        ),
+        ],
       ),
     );
+    // return new CustomAlertDialog(
+    //   content: new SingleChildScrollView(
+    //     child: new Container(
+    //       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+    //       child: Column(
+    //         mainAxisSize: MainAxisSize.min,
+    //         crossAxisAlignment: CrossAxisAlignment.center,
+    //         children: <Widget>[
+    //           buildStar(),
+    //           heightBox,
+    //           Text(
+    //             'To confirm you\'re the owner of this card, please '
+    //             'enter your card pin.',
+    //             textAlign: TextAlign.center,
+    //             style: TextStyle(
+    //               fontWeight: FontWeight.w500,
+    //               color: context.textTheme().headline6?.color,
+    //               fontSize: 15.0,
+    //             ),
+    //           ),
+    //           heightBox,
+
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 
   Widget buildStar() {
