@@ -102,13 +102,11 @@ class CardTransactionManager extends BaseTransactionManager {
     }
 
     if (status == '2') {
-      context.showLoader();
       return getPinFrmUI();
     }
 
     if (status == '3' && apiResponse.hasValidReferenceAndTrans()) {
       validateRequestBody.trans = apiResponse.trans;
-      context.showLoader();
       return getOtpFrmUI(message: apiResponse.message);
     }
 
