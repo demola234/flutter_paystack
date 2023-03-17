@@ -11,6 +11,7 @@ import 'package:flutter_paystack/src/common/paystack.dart';
 import 'package:flutter_paystack/src/models/charge.dart';
 import 'package:flutter_paystack/src/models/checkout_response.dart';
 import 'package:flutter_paystack/src/transaction/base_transaction_manager.dart';
+import 'package:flutter_paystack/src/widgets/common/extensions.dart';
 
 class CardTransactionManager extends BaseTransactionManager {
   late ValidateRequestBody validateRequestBody;
@@ -101,11 +102,13 @@ class CardTransactionManager extends BaseTransactionManager {
     }
 
     if (status == '2') {
+      context.showLoader();
       return getPinFrmUI();
     }
 
     if (status == '3' && apiResponse.hasValidReferenceAndTrans()) {
       validateRequestBody.trans = apiResponse.trans;
+      context.showLoader();
       return getOtpFrmUI(message: apiResponse.message);
     }
 

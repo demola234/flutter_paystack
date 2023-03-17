@@ -61,45 +61,18 @@ class _PinWidgetState extends BaseState<PinWidget> {
               ),
               SizedBox(height: 20),
               Align(
-                child:  Text(
-                'To confirm you\'re the owner of this card, please '
-                'enter your card pin.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: context.textTheme().headline6?.color,
-                  fontSize: 15.0,
-                ),
-              ),
-              ),
-              SizedBox(height: 20),
-              Align(
-                child: SizedBox(
-                  width: eqW(218, screenWidth),
-                  child: RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      text: 'Authorize transaction with your\n',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.black,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: '4-digit PIN ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                          ),
-                        ),
-                        const TextSpan(
-                          text: 'to complete process',
-                        )
-                      ],
-                    ),
+                child: Text(
+                  'To confirm you\'re the owner of this card, please '
+                  'enter your card pin.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: context.textTheme().headline6?.color,
+                    fontSize: 15.0,
                   ),
                 ),
               ),
+              SizedBox(height: 20),
               VerticalSpacing(eqH(8, screenHeight)),
               new PinField(
                   onSaved: (String pin) => Navigator.of(context).pop(pin)),

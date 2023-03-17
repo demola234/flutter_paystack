@@ -13,6 +13,7 @@ import 'package:flutter_paystack/src/models/checkout_response.dart';
 import 'package:flutter_paystack/src/models/transaction.dart';
 import 'package:flutter_paystack/src/widgets/birthday_widget.dart';
 import 'package:flutter_paystack/src/widgets/card_widget.dart';
+import 'package:flutter_paystack/src/widgets/common/extensions.dart';
 import 'package:flutter_paystack/src/widgets/otp_widget.dart';
 import 'package:flutter_paystack/src/widgets/pin_widget.dart';
 
@@ -105,6 +106,7 @@ abstract class BaseTransactionManager {
   Future<CheckoutResponse> getOtpFrmUI(
       {String? message, TransactionApiResponse? response}) async {
     assert(message != null || response != null);
+     context.hideLoader();
     String? otp = await showDialog<String>(
         context: context,
         barrierDismissible: false,
@@ -140,6 +142,7 @@ abstract class BaseTransactionManager {
   }
 
   Future<CheckoutResponse> getPinFrmUI() async {
+    context.hideLoader();
     String? pin = await showDialog<String>(
         barrierDismissible: false,
         context: context,
